@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprentissage Russe</title>
+    <style>
+        /* Les styles restent exactement les mêmes */
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #6b8cbc;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #51cf66;
+            --warning: #ffd43b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+        
+        .screen {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px;
+            width: calc(100% - 10px);
+            max-width: 300px;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--accent);
+        }
+        
+        .btn-danger:hover {
+            background-color: #ff5252;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            max-width: 200px;
+        }
+        
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .word {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .translation {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .instructions {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+        
+        .theme-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .theme-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f1f3f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .theme-item:hover {
+            background: #e9ecef;
+        }
+        
+        .theme-item.selected {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .checkbox {
+            margin-right: 10px;
+        }
+        
+        .search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+        }
+        
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+        }
+        
+        .results {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .result-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .result-item:hover {
+            background: #f1f3f5;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary);
+        }
+        
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: var(--accent);
+            background: #ffeaea;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        @media (min-width: 768px) {
+            .btn-group {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .btn {
+                width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Apprentissage Russe</h1>
+            <p class="subtitle">Améliorez votre vocabulaire russe facilement</p>
+        </header>
+        
+        <!-- Écran de chargement -->
+        <div id="loading-screen" class="screen active">
+            <div class="card">
+                <div class="loading">
+                    <h2>Chargement du vocabulaire...</h2>
+                    <p>Veuillez patienter</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Écran d'erreur -->
+        <div id="error-screen" class="screen">
+            <div class="card">
+                <div class="error">
+                    <h2>Erreur de chargement</h2>
+                    <p id="error-message">Impossible de charger le fichier de vocabulaire</p>
+                    <button id="retry-btn" class="btn">Réessayer</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Écran d'accueil -->
+        <div id="home-screen" class="screen">
+            <div class="card">
+                <h2>Que souhaitez-vous faire ?</h2>
+                <div class="btn-group">
+                    <button id="learn-btn" class="btn">Apprendre</button>
+                    <button id="new-words-btn" class="btn">Nouveaux mots</button>
+                    <button id="quit-btn" class="btn btn-danger">Quitter</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Écran d'apprentissage -->
+        <div id="learn-screen" class="screen">
+            <div class="card">
+                <h2>Configuration de l'apprentissage</h2>
+                
+                <div class="form-group">
+                    <label for="direction">Sens d'apprentissage :</label>
+                    <select id="direction">
+                        <option value="fr-ru">Français → Russe</option>
+                        <option value="ru-fr">Russe → Français</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Sélectionnez les thèmes :</label>
+                    <div class="theme-list" id="theme-list">
+                        <!-- Les thèmes seront ajoutés dynamiquement -->
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button id="start-learning-btn" class="btn btn-success">Commencer</button>
+                    <button id="back-to-home-btn" class="btn">Retour</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Écran de pratique -->
+        <div id="practice-screen" class="screen">
+            <div class="card">
+                <h2>Pratique</h2>
+                <div class="word" id="word-display"></div>
+                <div class="translation hidden" id="translation-display"></div>
+                
+                <div class="instructions">
+                    <p>Appuyez sur <strong>Espace</strong> pour révéler la traduction</p>
+                    <p>Appuyez à nouveau sur <strong>Espace</strong> si vous connaissez le mot</p>
+                    <p>Appuyez sur <strong>Entrée</strong> si vous ne connaissez pas le mot</p>
+                </div>
+                
+                <div class="btn-group">
+                    <button id="know-btn" class="btn btn-success">Je connais (Espace)</button>
+                    <button id="dont-know-btn" class="btn btn-warning">Je ne connais pas (Entrée)</button>
+                    <button id="back-to-learn-btn" class="btn">Retour</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Écran de nouveaux mots -->
+        <div id="new-words-screen" class="screen">
+            <div class="card">
+                <h2>Ajouter de nouveaux mots</h2>
+                
+                <div class="search-container">
+                    <input type="text" id="search-input" class="search-input" placeholder="Rechercher un mot...">
+                    <button id="search-btn" class="search-btn">Chercher</button>
+                </div>
+                
+                <div class="results" id="search-results">
+                    <!-- Les résultats de recherche seront ajoutés ici -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="theme-select">Sélectionnez un thème :</label>
+                    <select id="theme-select">
+                        <!-- Les options de thèmes seront ajoutées dynamiquement -->
+                    </select>
+                </div>
+                
+                <div class="btn-group">
+                    <button id="save-word-btn" class="btn btn-success">Sauvegarder le mot</button>
+                    <button id="back-to-home-btn-2" class="btn">Retour</button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Application d'apprentissage de vocabulaire russe</p>
+        </footer>
+    </div>
+
+    <script>
+        // Variable globale pour stocker les données de vocabulaire
+        let vocabularyData = {};
+
+        // Éléments DOM
+        const screens = {
+            loading: document.getElementById('loading-screen'),
+            error: document.getElementById('error-screen'),
+            home: document.getElementById('home-screen'),
+            learn: document.getElementById('learn-screen'),
+            practice: document.getElementById('practice-screen'),
+            newWords: document.getElementById('new-words-screen')
+        };
+
+// Charger le fichier JSON
+async function loadVocabulary() {
+    try {
+        showScreen('loading');
+        
+        // CORRECTION : Essayer plusieurs chemins possibles
+        let response;
+        const possiblePaths = [
+            'vocabulaire.json',
+            './vocabulaire.json',
+            'data/vocabulaire.json',
+            './data/vocabulaire.json'
+        ];
+        
+        let lastError;
+        for (const path of possiblePaths) {
+            try {
+                response = await fetch(path, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    cache: 'no-store' // Plus strict que 'no-cache'
+                });
+                
+                if (response.ok) {
+                    break; // Sortir de la boucle si on a trouvé le fichier
+                }
+            } catch (err) {
+                lastError = err;
+                continue; // Essayer le chemin suivant
+            }
+        }
+        
+        // Si aucun chemin n'a fonctionné
+        if (!response || !response.ok) {
+            throw new Error(lastError || `Fichier non trouvé. Chemins essayés: ${possiblePaths.join(', ')}`);
+        }
+        
+        const text = await response.text();
+        
+        // CORRECTION : Vérifier si le fichier n'est pas vide et est valide
+        if (!text.trim()) {
+            throw new Error('Le fichier vocabulaire.json est vide');
+        }
+        
+        vocabularyData = JSON.parse(text);
+        
+        // CORRECTION : Vérifier si la structure des données est correcte
+        if (Object.keys(vocabularyData).length === 0) {
+            throw new Error('Le fichier vocabulaire.json ne contient aucune donnée');
+        }
+        
+        showScreen('home');
+        
+    } catch (error) {
+        console.error('Erreur de chargement:', error);
+        document.getElementById('error-message').textContent = 
+            `Impossible de charger le fichier de vocabulaire: ${error.message}`;
+        showScreen('error');
+    }
+}
+
+        // Navigation
+        document.getElementById('learn-btn').addEventListener('click', () => {
+            if (Object.keys(vocabularyData).length === 0) {
+                loadVocabulary();
+            } else {
+                showScreen('learn');
+            }
+        });
+        
+        document.getElementById('new-words-btn').addEventListener('click', () => {
+            if (Object.keys(vocabularyData).length === 0) {
+                loadVocabulary();
+            } else {
+                showScreen('newWords');
+            }
+        });
+        
+        document.getElementById('quit-btn').addEventListener('click', () => {
+            if (confirm('Êtes-vous sûr de vouloir quitter ?')) {
+                // En production, on pourrait enregistrer les progrès ici
+                window.close(); // Ne fonctionne pas dans tous les navigateurs
+            }
+        });
+        
+        document.getElementById('retry-btn').addEventListener('click', loadVocabulary);
+        document.getElementById('back-to-home-btn').addEventListener('click', () => showScreen('home'));
+        document.getElementById('back-to-home-btn-2').addEventListener('click', () => showScreen('home'));
+        document.getElementById('back-to-learn-btn').addEventListener('click', () => showScreen('learn'));
+
+        // Fonction pour afficher un écran spécifique
+        function showScreen(screenName) {
+            Object.values(screens).forEach(screen => screen.classList.remove('active'));
+            screens[screenName].classList.add('active');
+            
+            // Initialiser l'écran si nécessaire
+            if (screenName === 'learn') {
+                initLearnScreen();
+            } else if (screenName === 'newWords') {
+                initNewWordsScreen();
+            }
+        }
+
+        // Initialisation de l'écran d'apprentissage
+        function initLearnScreen() {
+            const themeList = document.getElementById('theme-list');
+            themeList.innerHTML = '';
+            
+            // CORRECTION : Vérifier que vocabularyData n'est pas vide
+            if (Object.keys(vocabularyData).length === 0) {
+                themeList.innerHTML = '<p>Aucune donnée de vocabulaire disponible</p>';
+                return;
+            }
+            
+            // Créer les éléments de sélection de thèmes
+            for (const themeId in vocabularyData) {
+                const theme = vocabularyData[themeId];
+                const themeItem = document.createElement('div');
+                themeItem.className = 'theme-item';
+                themeItem.innerHTML = `
+                    <input type="checkbox" class="checkbox" id="theme-${themeId}" value="${themeId}">
+                    <label for="theme-${themeId}">${theme.name} (${theme.words ? theme.words.length : 0} mots)</label>
+                `;
+                themeList.appendChild(themeItem);
+                
+                // Ajouter un événement pour la sélection
+                themeItem.addEventListener('click', function(e) {
+                    if (e.target.type !== 'checkbox') {
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                        this.classList.toggle('selected', checkbox.checked);
+                    }
+                });
+            }
+            
+            // Démarrer l'apprentissage
+            document.getElementById('start-learning-btn').addEventListener('click', startLearning);
+        }
+
+        // Variables pour la session d'apprentissage
+        let currentWords = [];
+        let currentIndex = 0;
+        let direction = 'fr-ru';
+
+        // Démarrer l'apprentissage
+        function startLearning() {
+            // Récupérer les thèmes sélectionnés
+            const selectedThemes = [];
+            document.querySelectorAll('.theme-item input:checked').forEach(checkbox => {
+                selectedThemes.push(checkbox.value);
+            });
+            
+            if (selectedThemes.length === 0) {
+                alert('Veuillez sélectionner au moins un thème');
+                return;
+            }
+            
+            // Récupérer la direction
+            direction = document.getElementById('direction').value;
+            
+            // Rassembler tous les mots des thèmes sélectionnés
+            currentWords = [];
+            selectedThemes.forEach(themeId => {
+                // CORRECTION : Vérifier que le thème existe et a des mots
+                if (vocabularyData[themeId] && vocabularyData[themeId].words) {
+                    currentWords = currentWords.concat(vocabularyData[themeId].words);
+                }
+            });
+            
+            // CORRECTION : Vérifier qu'il y a des mots à apprendre
+            if (currentWords.length === 0) {
+                alert('Aucun mot trouvé dans les thèmes sélectionnés');
+                return;
+            }
+            
+            // Mélanger les mots
+            shuffleArray(currentWords);
+            
+            // Réinitialiser l'index
+            currentIndex = 0;
+            
+            // Afficher l'écran de pratique
+            showScreen('practice');
+            showNextWord();
+            
+            // Ajouter les écouteurs d'événements pour les touches
+            document.addEventListener('keydown', handleKeyPress);
+        }
+
+        // Afficher le mot suivant
+        function showNextWord() {
+            if (currentIndex >= currentWords.length) {
+                // Fin de la session
+                document.getElementById('word-display').textContent = 'Session terminée !';
+                document.getElementById('translation-display').classList.add('hidden');
+                document.getElementById('know-btn').disabled = true;
+                document.getElementById('dont-know-btn').disabled = true;
+                
+                // CORRECTION : Retirer l'écouteur d'événements
+                document.removeEventListener('keydown', handleKeyPress);
+                return;
+            }
+            
+            const word = currentWords[currentIndex];
+            const wordDisplay = document.getElementById('word-display');
+            const translationDisplay = document.getElementById('translation-display');
+            
+            // CORRECTION : Vérifier que le mot a les propriétés nécessaires
+            if (direction === 'fr-ru') {
+                wordDisplay.textContent = word.french || 'Mot non disponible';
+                translationDisplay.textContent = word.russian || 'Traduction non disponible';
+            } else {
+                wordDisplay.textContent = word.russian || 'Mot non disponible';
+                translationDisplay.textContent = word.french || 'Traduction non disponible';
+            }
+            
+            translationDisplay.classList.add('hidden');
+            
+            // CORRECTION : Réactiver les boutons
+            document.getElementById('know-btn').disabled = false;
+            document.getElementById('dont-know-btn').disabled = false;
+        }
+
+        // Gérer les touches du clavier
+        function handleKeyPress(e) {
+            if (e.key === ' ') { // Espace
+                e.preventDefault();
+                const translationDisplay = document.getElementById('translation-display');
+                
+                if (translationDisplay.classList.contains('hidden')) {
+                    // Afficher la traduction
+                    translationDisplay.classList.remove('hidden');
+                } else {
+                    // Passer au mot suivant (je connais)
+                    currentIndex++;
+                    showNextWord();
+                }
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                // Passer au mot suivant (je ne connais pas)
+                // En production, on pourrait enregistrer ce mot pour le revoir plus tard
+                currentIndex++;
+                showNextWord();
+            }
+        }
+
+        // Gérer les boutons de l'écran de pratique
+        document.getElementById('know-btn').addEventListener('click', () => {
+            const translationDisplay = document.getElementById('translation-display');
+            
+            if (translationDisplay.classList.contains('hidden')) {
+                // Afficher la traduction
+                translationDisplay.classList.remove('hidden');
+            } else {
+                // Passer au mot suivant (je connais)
+                currentIndex++;
+                showNextWord();
+            }
+        });
+
+        document.getElementById('dont-know-btn').addEventListener('click', () => {
+            // Passer au mot suivant (je ne connais pas)
+            currentIndex++;
+            showNextWord();
+        });
+
+        // Initialisation de l'écran de nouveaux mots
+        function initNewWordsScreen() {
+            const themeSelect = document.getElementById('theme-select');
+            themeSelect.innerHTML = '';
+            
+            // CORRECTION : Vérifier que vocabularyData n'est pas vide
+            if (Object.keys(vocabularyData).length === 0) {
+                themeSelect.innerHTML = '<option>Aucun thème disponible</option>';
+                return;
+            }
+            
+            // Ajouter les options de thèmes
+            for (const themeId in vocabularyData) {
+                const theme = vocabularyData[themeId];
+                const option = document.createElement('option');
+                option.value = themeId;
+                option.textContent = theme.name;
+                themeSelect.appendChild(option);
+            }
+            
+            // Ajouter une option pour créer un nouveau thème
+            const newThemeOption = document.createElement('option');
+            newThemeOption.value = 'new';
+            newThemeOption.textContent = '+ Créer un nouveau thème';
+            themeSelect.appendChild(newThemeOption);
+            
+            // Gérer la recherche
+            document.getElementById('search-btn').addEventListener('click', performSearch);
+            
+            // CORRECTION : Désactiver le bouton de sauvegarde initialement
+            document.getElementById('save-word-btn').disabled = true;
+        }
+
+        // Effectuer une recherche (simulée)
+        function performSearch() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (!searchTerm) {
+                alert('Veuillez entrer un terme de recherche');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '<p>Recherche en cours...</p>';
+            
+            // Simulation d'une recherche (en production, cela serait une requête API)
+            setTimeout(() => {
+                // Résultats simulés
+                const mockResults = [
+                    { french: searchTerm, russian: "результат1" },
+                    { french: searchTerm, russian: "результат2" },
+                    { french: searchTerm, russian: "результат3" }
+                ];
+                
+                displaySearchResults(mockResults);
+            }, 1000);
+        }
+
+        // Afficher les résultats de recherche
+        function displaySearchResults(results) {
+            const resultsContainer = document.getElementById('search-results');
+            resultsContainer.innerHTML = '';
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<p>Aucun résultat trouvé</p>';
+                return;
+            }
+            
+            results.forEach((result, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <strong>${result.french}</strong> → ${result.russian}
+                `;
+                resultItem.dataset.index = index;
+                resultItem.addEventListener('click', () => selectResult(result));
+                resultsContainer.appendChild(resultItem);
+            });
+        }
+
+        // Sélectionner un résultat de recherche
+        let selectedResult = null;
+        function selectResult(result) {
+            selectedResult = result;
+            
+            // Mettre en évidence la sélection
+            document.querySelectorAll('.result-item').forEach(item => {
+                item.style.background = '';
+            });
+            event.currentTarget.style.background = '#e7f3ff';
+            
+            // Activer le bouton de sauvegarde
+            document.getElementById('save-word-btn').disabled = false;
+        }
+
+        // Sauvegarder un nouveau mot
+        document.getElementById('save-word-btn').addEventListener('click', () => {
+            if (!selectedResult) {
+                alert('Veuillez sélectionner un mot dans les résultats');
+                return;
+            }
+            
+            const themeSelect = document.getElementById('theme-select');
+            const themeId = themeSelect.value;
+            
+            if (themeId === 'new') {
+                // En production, on pourrait demander le nom du nouveau thème
+                alert('Fonctionnalité de création de nouveau thème à implémenter');
+                return;
+            }
+            
+            // CORRECTION : Vérifier que le thème existe
+            if (!vocabularyData[themeId]) {
+                alert('Thème sélectionné non valide');
+                return;
+            }
+            
+            // Ajouter le mot au thème sélectionné
+            const newWord = {
+                ...selectedResult,
+                dateAdded: new Date().toISOString().split('T')[0] // Date du jour
+            };
+            
+            // CORRECTION : S'assurer que le tableau words existe
+            if (!vocabularyData[themeId].words) {
+                vocabularyData[themeId].words = [];
+            }
+            
+            vocabularyData[themeId].words.push(newWord);
+            
+            alert(`Mot "${newWord.french}" ajouté au thème "${vocabularyData[themeId].name}"`);
+            
+            // Réinitialiser
+            selectedResult = null;
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').innerHTML = '';
+            document.getElementById('save-word-btn').disabled = true;
+        });
+
+        // Fonction utilitaire pour mélanger un tableau
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Charger le vocabulaire au démarrage
+        loadVocabulary();
+    </script>
+</body>
+</html>

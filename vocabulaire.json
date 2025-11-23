@@ -1,0 +1,44 @@
+{
+  "jours": {
+    "name": "Jours de la semaine",
+    "words": [
+      {"french": "lundi", "russian": "понедельник", "dateAdded": "2023-10-01"},
+      {"french": "mardi", "russian": "вторник", "dateAdded": "2023-10-01"},
+      {"french": "mercredi", "russian": "среда", "dateAdded": "2023-10-01"},
+      {"french": "jeudi", "russian": "четверг", "dateAdded": "2023-10-01"},
+      {"french": "vendredi", "russian": "пятница", "dateAdded": "2023-10-01"},
+      {"french": "samedi", "russian": "суббота", "dateAdded": "2023-10-01"},
+      {"french": "dimanche", "russian": "воскресенье", "dateAdded": "2023-10-01"}
+    ]
+  },
+  "saisons": {
+    "name": "Saisons",
+    "words": [
+      {"french": "printemps", "russian": "весна", "dateAdded": "2023-10-02"},
+      {"french": "été", "russian": "лето", "dateAdded": "2023-10-02"},
+      {"french": "automne", "russian": "осень", "dateAdded": "2023-10-02"},
+      {"french": "hiver", "russian": "зима", "dateAdded": "2023-10-02"}
+    ]
+  },
+  "couleurs": {
+    "name": "Couleurs",
+    "words": [
+      {"french": "rouge", "russian": "красный", "dateAdded": "2023-10-03"},
+      {"french": "bleu", "russian": "синий", "dateAdded": "2023-10-03"},
+      {"french": "vert", "russian": "зелёный", "dateAdded": "2023-10-03"},
+      {"french": "jaune", "russian": "жёлтый", "dateAdded": "2023-10-03"},
+      {"french": "noir", "russian": "чёрный", "dateAdded": "2023-10-03"},
+      {"french": "blanc", "russian": "белый", "dateAdded": "2023-10-03"}
+    ]
+  },
+  "nombres": {
+    "name": "Nombres",
+    "words": [
+      {"french": "un", "russian": "один", "dateAdded": "2023-10-04"},
+      {"french": "deux", "russian": "два", "dateAdded": "2023-10-04"},
+      {"french": "trois", "russian": "три", "dateAdded": "2023-10-04"},
+      {"french": "quatre", "russian": "четыре", "dateAdded": "2023-10-04"},
+      {"french": "cinq", "russian": "пять", "dateAdded": "2023-10-04"}
+    ]
+  }
+}
